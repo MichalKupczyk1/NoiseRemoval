@@ -1,4 +1,4 @@
 ﻿  Source.cpp
-C:\Users\Michal\source\repos\byteNoiseReductionCPP\byteNoiseReductionCPP\NoiseRemoval.h(31,2): warning C4091: 'static ': ignored on left of 'NoiseRemoval' when no variable is declared
-C:\Users\Michal\source\repos\byteNoiseReductionCPP\byteNoiseReductionCPP\Source.cpp(119,13): warning C4326: return type of 'main' should be 'int' instead of 'void'
-  byteNoiseReductionCPP.vcxproj -> C:\Users\Michal\source\repos\byteNoiseReductionCPP\Debug\byteNoiseReductionCPP.exe
+C:\Users\Michal\source\repos\byteNoiseReductionCPP\NoiseRemoval\byteNoiseReductionCPP\NoiseRemoval.h(41,2): warning C4091: 'static ': ignored on left of 'NoiseRemoval' when no variable is declared
+C:\Users\Michal\source\repos\byteNoiseReductionCPP\NoiseRemoval\byteNoiseReductionCPP\Source.cpp(125,13): warning C4326: return type of 'main' should be 'int' instead of 'void'
+  byteNoiseReductionCPP.vcxproj -> C:\Users\Michal\source\repos\byteNoiseReductionCPP\NoiseRemoval\Debug\byteNoiseReductionCPP.exe

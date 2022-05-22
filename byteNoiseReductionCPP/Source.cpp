@@ -111,11 +111,16 @@ void pixelToByteArray(byte* byteArray, Pixel* pixelArray, int width, int amount,
 }
 
 //////////////////////////////////////////////////////////////////////
+//initializing static fields of NoiseRemoval class
 
 int NoiseRemoval::height = 0;
 int NoiseRemoval::width = 0;
 int NoiseRemoval::threshold = 0;
 Pixel** NoiseRemoval::pixelArray = nullptr;
+bool** NoiseRemoval::noiseArray = nullptr;
+
+//////////////////////////////////////////////////////////////////////
+//main program
 
 void main() {
 	//opening a file
