@@ -94,6 +94,7 @@ void addNoise(Pixel** pixelArray, int width, int height, double noiseLevel) {
 
 void pixelToByteArray(byte* byteArray, Pixel* pixelArray, int width, int amount, int step) {
 	int a = 0;
+	//skipping header info which is always the same as in the original image
 	for (int i = 54; i < amount - 3;)
 	{
 		byteArray[i] = pixelArray[a].getR();
@@ -161,13 +162,13 @@ void main() {
 	result.write((const char*)&byteArray[0], byteAmount);
 	result.close();
 
+	//releasing all pointers
 	for (int i = 0; i < height; i++)
 		delete[]twoDimentionalArray[i];
 	twoDimentionalArray = nullptr;
 
 	delete[]pixelArray;
 	pixelArray = nullptr;
-
 
 	//additional couts showing calculated values
 	std::cout << "Byte amount: " << byteAmount << " Pixel count: " << pixelCount << std::endl;
