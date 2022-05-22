@@ -155,7 +155,7 @@ void main() {
 
 	int threshold = 60;
 
-	NoiseRemoval::setData(twoDimentionalArray, width, height, threshold,DetectionType::FAST,RemovalType::Mean);
+	NoiseRemoval::setData(twoDimentionalArray, width, height, threshold);
 
 	twoDimentionalArray = NoiseRemoval::returnArray();
 

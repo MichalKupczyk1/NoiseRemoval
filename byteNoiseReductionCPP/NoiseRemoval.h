@@ -1,13 +1,6 @@
 #pragma once
 #include "Pixel.h"
-
-enum class DetectionType {
-	FAST=0,
-};
-
-enum class RemovalType {
-	Mean = 0,
-};
+#include <algorithm>
 
 static class NoiseRemoval
 {
@@ -25,17 +18,26 @@ private:
 	static bool isCorrupted(double*,int);
 	static int findIndex(double*, int);
 
+	//detecting noise
+	static void FAPG(int);
+	static void FAST(int);
+
+	//removing noise
+	static void sumRemoval(int);
+
+	static void calculateDistance(Pixel*, short*);
+
+	static short findMax(short*,int);
+	static short findMin(short*, int);
+
 	static void extendArray();
 	static void shrinkArray();
 	static void createNoiseArray();
-
 	static void changePixel(Pixel, int, int);
-
-	static void detectNoise();
-	static void removeNoise();
+	static void detectNoise(int);
 
 public:
-	static void setData(Pixel**, int, int, int, DetectionType, RemovalType);
+	static void setData(Pixel**, int, int, int);
 	static Pixel** returnArray();
 
 };
