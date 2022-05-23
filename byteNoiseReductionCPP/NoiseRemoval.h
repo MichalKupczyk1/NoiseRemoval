@@ -17,6 +17,9 @@ private:
 	static double calculateDifference(Pixel, Pixel);
 	static bool isCorrupted(double*,int);
 	static int findIndex(double*, int);
+	static short findImpulsiveness(short*, int);
+	static Pixel calculateMean(Pixel*, bool*, int);
+
 
 	//detecting noise
 	static void FAPG(int);
@@ -24,6 +27,7 @@ private:
 
 	//removing noise
 	static void sumRemoval(int);
+	static void meanRemoval(int);
 
 	static void calculateDistance(Pixel*, short*);
 
@@ -39,6 +43,5 @@ private:
 public:
 	static void setData(Pixel**, int, int, int);
 	static Pixel** returnArray();
-
 };
 

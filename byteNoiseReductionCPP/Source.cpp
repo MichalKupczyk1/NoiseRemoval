@@ -75,7 +75,6 @@ void shuffleArray(Coordinates* coordArray, int length) {
 }
 
 void addNoise(Pixel** pixelArray, int width, int height, double noiseLevel) {
-	
 	int length = width * height;
 	Coordinates* coordArray = new Coordinates[length];
 	int z = 0;
@@ -151,9 +150,9 @@ void main() {
 	Pixel** twoDimentionalArray = saveTo2DArray(pixelArray, width, height);
 
 	//20% of the pixels will be corrupted 
-	addNoise(twoDimentionalArray, width, height, 0.2);
+	addNoise(twoDimentionalArray, width, height, 0.3);
 
-	int threshold = 60;
+	int threshold =60;
 
 	NoiseRemoval::setData(twoDimentionalArray, width, height, threshold);
 
@@ -170,10 +169,8 @@ void main() {
 	//releasing all pointers
 	for (int i = 0; i < height; i++)
 		delete[]twoDimentionalArray[i];
-	twoDimentionalArray = nullptr;
 
 	delete[]pixelArray;
-	pixelArray = nullptr;
 
 	//additional couts showing calculated values
 	std::cout << "Byte amount: " << byteAmount << " Pixel count: " << pixelCount << std::endl;

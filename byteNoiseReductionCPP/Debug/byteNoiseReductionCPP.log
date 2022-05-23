@@ -1,8 +1,3 @@
 ﻿  NoiseRemoval.cpp
-C:\Users\Michal\source\repos\byteNoiseReductionCPP\NoiseRemoval\byteNoiseReductionCPP\NoiseRemoval.h(43,2): warning C4091: 'static ': ignored on left of 'NoiseRemoval' when no variable is declared
-C:\Users\Michal\source\repos\byteNoiseReductionCPP\NoiseRemoval\byteNoiseReductionCPP\NoiseRemoval.cpp(228,57): error C2511: 'short NoiseRemoval::findIndex(short *,int)': overloaded member function not found in 'NoiseRemoval'
-C:\Users\Michal\source\repos\byteNoiseReductionCPP\NoiseRemoval\byteNoiseReductionCPP\NoiseRemoval.h(5): message : see declaration of 'NoiseRemoval'
-  Source.cpp
-C:\Users\Michal\source\repos\byteNoiseReductionCPP\NoiseRemoval\byteNoiseReductionCPP\NoiseRemoval.h(43,2): warning C4091: 'static ': ignored on left of 'NoiseRemoval' when no variable is declared
-C:\Users\Michal\source\repos\byteNoiseReductionCPP\NoiseRemoval\byteNoiseReductionCPP\Source.cpp(125,13): warning C4326: return type of 'main' should be 'int' instead of 'void'
-  Generating Code...
+C:\Users\Michal\source\repos\byteNoiseReductionCPP\NoiseRemoval\byteNoiseReductionCPP\NoiseRemoval.h(46,2): warning C4091: 'static ': ignored on left of 'NoiseRemoval' when no variable is declared
+  byteNoiseReductionCPP.vcxproj -> C:\Users\Michal\source\repos\byteNoiseReductionCPP\NoiseRemoval\Debug\byteNoiseReductionCPP.exe
