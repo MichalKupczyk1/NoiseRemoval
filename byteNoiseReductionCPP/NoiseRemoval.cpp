@@ -9,12 +9,13 @@ Pixel** NoiseRemoval::returnArray() {
 	return pixelArray;
 }
 
-void NoiseRemoval::setData(Pixel** array, int w, int h, int t) {
+void NoiseRemoval::setData(Pixel** array, int w, int h, int t,DetectionType detection,RemovalType removal) {
 	pixelArray = array;
 	width = w;
 	height = h;
 	threshold = t;
-
+	detectionType = detection;
+	removalType = removal;
 	extendArray();
 }
 
@@ -44,7 +45,6 @@ void NoiseRemoval::extendArray()
 	for (int i = 0; i < height + 2;i++)
 		temp[i] = new Pixel[width + 2];
 	
-	std::cout << width<<" "<<height << std::endl;
 	for (int i = 0; i < height; i++)
 	{
 		temp[i][0] = pixelArray[i][0];
@@ -133,11 +133,12 @@ int NoiseRemoval::findIndex(double* sumArray, int windowSize) {
 }
 
 //detection algorithms
-
 void NoiseRemoval::detectNoise(int windowSize)
 {
-	FAST(windowSize);
-	//FAPG(windowSize);
+	if(detectionType==DetectionType::FAST)
+		FAST(windowSize);
+	if (detectionType == DetectionType::FAPG)
+		FAPG(windowSize);
 }
 
 void NoiseRemoval::FAPG(int windowSize) {

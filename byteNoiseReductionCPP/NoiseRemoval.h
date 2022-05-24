@@ -2,9 +2,22 @@
 #include "Pixel.h"
 #include <algorithm>
 
+enum class RemovalType {
+	Mean=0,
+	Sum=1,
+};
+
+enum class DetectionType {
+	FAST = 0,
+	FAPG = 1,
+};
+
 static class NoiseRemoval
 {
 private:
+	static RemovalType removalType;
+	static DetectionType detectionType;
+
 	static Pixel** pixelArray;
 	static bool** noiseArray;
 
@@ -41,7 +54,7 @@ private:
 	static void detectNoise(int);
 
 public:
-	static void setData(Pixel**, int, int, int);
+	static void setData(Pixel**, int, int, int,DetectionType,RemovalType);
 	static Pixel** returnArray();
 };
 

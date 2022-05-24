@@ -139,10 +139,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Algorithms.cpp" />
     <ClCompile Include="NoiseRemoval.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Algorithms.h" />
     <ClInclude Include="NoiseRemoval.h" />
     <ClInclude Include="Pixel.h" />
   </ItemGroup>
