@@ -17,6 +17,6 @@ void calculateWidthAndHeight(byte* byteData, int& width, int& height);
 
 void shuffleArray(Coordinates* coordArray, int length);
 
-void addNoise(Pixel** pixelArray, int width, int height, double noiseLevel);
+bool** addNoise(Pixel** pixelArray, int width, int height, double noiseLevel);
 
 void pixelToByteArray(byte* byteArray, Pixel* pixelArray, int width, int amount, int step);

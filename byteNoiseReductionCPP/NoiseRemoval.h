@@ -39,6 +39,7 @@ private:
 	static void FAST(int);
 
 	//removing noise
+	static void removeNoise(int);
 	static void sumRemoval(int);
 	static void meanRemoval(int);
 
@@ -54,6 +55,7 @@ private:
 	static void detectNoise(int);
 
 public:
+	static bool** getNoiseArray();
 	static void setData(Pixel**, int, int, int,DetectionType,RemovalType);
 	static Pixel** returnArray();
 };

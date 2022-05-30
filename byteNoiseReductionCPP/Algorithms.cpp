@@ -68,21 +68,30 @@ void shuffleArray(Coordinates* coordArray, int length) {
 		std::swap(coordArray[i], coordArray[dist(gen)]);
 }
 
-void addNoise(Pixel** pixelArray, int width, int height, double noiseLevel) {
+bool** addNoise(Pixel** pixelArray, int width, int height, double noiseLevel) {
+	bool** noiseArray = new bool* [height];
+	for (int i = 0; i < height; i++)
+		noiseArray[i] = new bool[width] {1};
+
 	int length = width * height;
 	Coordinates* coordArray = new Coordinates[length];
 	int z = 0;
 	for (int i = 0; i < height; i++) {
 		for (int j = 0; j < width; j++) {
 			coordArray[z].x = i;
-			coordArray[z++].y = j;
+			coordArray[z].y = j;
+			z++;
 		}
 	}
 	shuffleArray(coordArray, length);
 
 	for (int i = 0; i < length * noiseLevel; i++) {
 		pixelArray[coordArray[i].x][coordArray[i].y] = Pixel(rand() % 255, rand() % 255, rand() % 255);
+		noiseArray[coordArray[i].x][coordArray[i].y] = false;
 	}
+	for (int i = length * noiseLevel; i < length; i++)
+		noiseArray[coordArray[i].x][coordArray[i].y] = true;
+	return noiseArray;
 }
 
 void pixelToByteArray(byte* byteArray, Pixel* pixelArray, int width, int amount, int step) {

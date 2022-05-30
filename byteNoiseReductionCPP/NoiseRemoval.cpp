@@ -9,6 +9,10 @@ Pixel** NoiseRemoval::returnArray() {
 	return pixelArray;
 }
 
+bool** NoiseRemoval::getNoiseArray() {
+	return noiseArray;
+}
+
 void NoiseRemoval::setData(Pixel** array, int w, int h, int t,DetectionType detection,RemovalType removal) {
 	pixelArray = array;
 	width = w;
@@ -152,6 +156,7 @@ void NoiseRemoval::FAPG(int windowSize) {
 	double** differenceArray = new double* [windowSize];
 	for (int i = 0; i < windowSize; i++)
 		differenceArray[i] = new double[windowSize];
+	int goodPixels = 0;
 
 	for (int i = 1; i < height + 1; i++) {
 		for (int j = 1; j < width + 1; j++) {
@@ -168,10 +173,14 @@ void NoiseRemoval::FAPG(int windowSize) {
 			calculateSum(sum, differenceArray, windowSize);
 			//returns true if pixel is corrupted, substracting one from indexes because bool array wasn't extended
 			noiseArray[i-1][j-1] = isCorrupted(sum, windowSize);
+			if (noiseArray[i - 1][j - 1])
+				goodPixels++;
+
 
 			index = 0;
 		}
 	}
+	std::cout << "Good pixels: " << goodPixels << std::endl;
 	//releasing memory
 	for (int i = 0; i < windowSize; i++) {
 		delete[]differenceArray[i];
@@ -179,8 +188,8 @@ void NoiseRemoval::FAPG(int windowSize) {
 	delete[]differenceArray;
 	delete[]tempPixelArray;
 	delete[]sum;
-
-	sumRemoval(windowSize);
+	
+	removeNoise(windowSize);
 }
 
 void NoiseRemoval::FAST(int windowSize) {
@@ -229,12 +238,17 @@ void NoiseRemoval::FAST(int windowSize) {
 			impulsivenessCalculation[i][j] = (short)(impulsivenessData[i][j] - substraction);
 		
 			noiseArray[i - 1][j - 1] = impulsivenessCalculation[i][j] < threshold;
-			if (noiseArray[i - 1][j - 1])
+
+			if (noiseArray[i - 1][j - 1]) {
 				goodPixelcounter++;
+				//std::cout << "Good pixel: " << impulsivenessCalculation[i][j] << std::endl;
+			}
+				//std::cout << "Corrupted pixel: " << impulsivenessCalculation[i][j] << std::endl;
 
 			counter = 0;
 		}
 	}
+	std::cout << "Corrupted pixels: " << (667000-goodPixelcounter) << std::endl;
 
 	for (int i = 0; i < height+2; i++) {
 		delete[]impulsivenessCalculation[i];
@@ -245,7 +259,7 @@ void NoiseRemoval::FAST(int windowSize) {
 	delete[]tempPixelArray;
 	delete[]minImpulsiveness;
 
-	meanRemoval(windowSize);
+	removeNoise(windowSize);
 }
 
 //additional methods
@@ -254,8 +268,6 @@ short NoiseRemoval::findImpulsiveness(short* array, int amount) {
 	short temp = array[0];
 	for (int i = 1; i < amount; i++)
 	{
-		if (i == 4)
-			continue;
 		if (array[i] < temp)
 			temp = array[i];
 	}
@@ -278,17 +290,23 @@ short NoiseRemoval::findMin(short* array, int amount) {
 	{
 		if (i == 4)
 			continue;
+		//std::cout << array[i] << " ";
 		if (array[i] < firstMin)
 		{
 			secondMin = firstMin;
 			firstMin = array[i];
+			continue;
 		}
 		if (array[i] < secondMin)
 		{
 			secondMin = array[i];
 		}
 	}
-	return (short)(firstMin + secondMin);
+
+	short result = firstMin + secondMin;
+	//std::cout << "First: " << firstMin << " Second: " << secondMin << " Sum: " << result << std::endl;
+	
+	return result;
 }
 
 void NoiseRemoval::calculateDistance(Pixel*pixelArray,short*differenceArray) {
@@ -332,6 +350,13 @@ Pixel NoiseRemoval::calculateMean(Pixel* tempPixelArray, bool* goodPixelArray, i
 }
 //removal algorithms
 
+void NoiseRemoval::removeNoise(int windowSize) {
+	if (removalType == RemovalType::Mean)
+		meanRemoval(windowSize);
+	if (removalType == RemovalType::Sum)
+		sumRemoval(windowSize);
+}
+
 void NoiseRemoval::meanRemoval(int windowSize) {
 	int index = 0;
 	Pixel*tempPixelArray = new Pixel[windowSize];
@@ -371,6 +396,8 @@ void NoiseRemoval::sumRemoval(int windowSize)
 	double** differenceArray = new double* [windowSize];
 	for (int i = 0; i < windowSize; i++)
 		differenceArray[i] = new double[windowSize];
+	
+	int pixelCounter = 0;
 
 	for (int i = 1; i < height + 1; i++) {
 		for (int j = 1; j < width + 1; j++) {

@@ -1,10 +1,17 @@
 ﻿#include "NoiseRemoval.h"
 #include "Algorithms.h"
 
+//for tests
+#define WIDTH 1000
+#define HEIGHT 667
+
 #pragma warning(disable:4996) //fopen
 //some bitmaps have additional bytes in each row just to make sure that each row can be divided by 4
 
-
+/*
+*	todo
+	Do detekcji: jaki jest prawidłowy wynik detekcji, jaki jest wynik detekcji, impulsywność (data i calculation)
+*/
 //////////////////////////////////////////////////////////////////////
 //initializing static fields of NoiseRemoval class
 
@@ -53,13 +60,24 @@ void main() {
 		Pixel** twoDimentionalArray = saveTo2DArray(pixelArray, width, height);
 
 		//20% of the pixels will be corrupted 
-		addNoise(twoDimentionalArray, width, height, 0.3);
+		bool** trueNoiseArray;
+		trueNoiseArray=addNoise(twoDimentionalArray, width, height, 0.2);
 
 		int threshold = 60;
 
-		NoiseRemoval::setData(twoDimentionalArray, width, height, threshold, DetectionType::FAPG, RemovalType::Sum);
+		pixelArray = ConvertFrom2DArray(twoDimentionalArray, width, height);
+		pixelToByteArray(byteArray, pixelArray, width, byteAmount, step);
+
+		//saving image with added noise
+		std::ofstream noisyImage("noisyImage.bmp", std::ios_base::binary);
+		noisyImage.write((const char*)&byteArray[0], byteAmount);
+		noisyImage.close();
+
+		NoiseRemoval::setData(twoDimentionalArray, width, height, threshold, DetectionType::FAST, RemovalType::Mean);
 
 		twoDimentionalArray = NoiseRemoval::returnArray();
+
+		bool** detectedNoiseArray = NoiseRemoval::getNoiseArray();
 
 		pixelArray = ConvertFrom2DArray(twoDimentionalArray, width, height);
 		pixelToByteArray(byteArray, pixelArray, width, byteAmount, step);
@@ -69,16 +87,35 @@ void main() {
 		result.write((const char*)&byteArray[0], byteAmount);
 		result.close();
 
-		//releasing all pointers
-		for (int i = 0; i < height; i++)
-			delete[]twoDimentionalArray[i];
-
-		delete[]pixelArray;
-
 		//additional couts showing calculated values
 		std::cout << "Byte amount: " << byteAmount << " Pixel count: " << pixelCount << std::endl;
 		std::cout << "Width: " << width << " Height: " << height << std::endl;
 		std::cout << "Step: " << step << std::endl;
+
+		int pp = 0, fp = 0, fn = 0;
+
+		for (int i = 0; i<HEIGHT; i++) {
+			for (int j = 0; j < WIDTH; j++) {
+				if (!trueNoiseArray[i][j] &&!detectedNoiseArray[i][j])
+					pp++;
+				if (trueNoiseArray[i][j]&&!detectedNoiseArray[i][j])
+					fp++;
+				if (!trueNoiseArray[i][j] && detectedNoiseArray[i][j])
+					fn++;
+			}
+		}
+
+		std::cout << "Positive: " << pp << " False positive: " << fp << " False negative: " << fn << std::endl;
+
+		//releasing all pointers
+		for (int i = 0; i < HEIGHT; i++) {
+			delete[]twoDimentionalArray[i];
+			delete[]trueNoiseArray[i];
+			delete[]detectedNoiseArray[i];
+		}
+		delete[]trueNoiseArray;
+		delete[]detectedNoiseArray;
+		delete[]pixelArray;
 	}
 	else {
 		fclose(bitmap);
